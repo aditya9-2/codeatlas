@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg17
+    container_name: codeatlas-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: codeatlas
+      POSTGRES_PASSWORD: codeatlas
+      POSTGRES_DB: codeatlas
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - codeatlas_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  codeatlas_postgres_data:
