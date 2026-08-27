@@ -1,4 +1,7 @@
 import type { ClerkAuthVariables } from "@hono/clerk-auth";
+import { users } from "db";
+
+export type User = typeof users.$inferSelect;
 
 export type Env = {
   Bindings: {
@@ -6,5 +9,7 @@ export type Env = {
     CLERK_PUBLISHABLE_KEY: string;
     CLERK_SECRET_KEY: string;
   };
-  Variables: ClerkAuthVariables;
+  Variables: ClerkAuthVariables & {
+    currentUser: User;
+  };
 };

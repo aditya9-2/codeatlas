@@ -1,12 +1,14 @@
 import { Hono } from 'hono'
 import clerkWebhook from './routes/webhooks/clerk';
 import { successResponse, errorResponse } from './utils/responses';
+import meRoute from "./routes/user/me";
 
 const app = new Hono()
 
 app.get("/", (c) => successResponse(c, { message: "API is healthy" }));
 
 app.route("/webhooks/clerk", clerkWebhook);
+app.route("/me", meRoute);
 
 // 404 handeler
 app.notFound((c) => errorResponse(c, "Route not found", 404));
