@@ -1,12 +1,19 @@
 import { Hono } from 'hono'
 import clerkWebhook from './routes/webhooks/clerk';
+import { successResponse, errorResponse } from './utils/responses';
 
 const app = new Hono()
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-});
+app.get("/", (c) => successResponse(c, { message: "API is healthy" }));
 
 app.route("/webhooks/clerk", clerkWebhook);
+
+// 404 handeler
+app.notFound((c) => errorResponse(c, "Route not found", 404));
+
+app.onError((err, c) => {
+  console.error("Unhandeled error:", err);
+  return errorResponse(c, err.message || "Internal Server Error", 500);
+})
 
 export default app
